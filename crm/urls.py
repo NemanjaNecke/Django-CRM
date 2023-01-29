@@ -8,6 +8,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
+from django.contrib import admin
+
 
 openapi_info = openapi.Info(
     title="Crm API",
@@ -25,6 +27,7 @@ schema_view = get_schema_view(
 app_name = "crm"
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     url(
         r"^healthz/$",
         TemplateView.as_view(template_name="healthz.html"),

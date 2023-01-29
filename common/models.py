@@ -79,6 +79,9 @@ class Org(models.Model):
     user_limit = models.IntegerField(default=5)
     country = models.CharField(max_length=3, choices=COUNTRIES, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     file_prepend = "users/profile_pics"

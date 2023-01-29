@@ -942,6 +942,7 @@ class DomainList(APIView):
     @swagger_auto_schema(
         tags=["Settings"], manual_parameters=swagger_params.organization_params
     )
+
     def get(self, request, *args, **kwargs):
         api_settings = APISettings.objects.filter(org=request.org)
         users = Profile.objects.filter(is_active=True, org=request.org).order_by(
@@ -1089,7 +1090,7 @@ class ActivateUserView(View):
                     }
                     return render(request, self.template, context)
 
-                context = {"success": False, "message": "In Valid Token."}
+                context = {"success": False, "message": "Invalid Token."}
                 return render(request, self.template, context)
 
     # def post(self, request, uid, token, activation_key, format=None):
@@ -1152,22 +1153,22 @@ class ResendActivationLinkView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-# class OrganizationListView(APIView, LimitOffsetPagination):
+class OrganizationListView(APIView, LimitOffsetPagination):
 
-#     # ##authentication_classes = (JSONWebTokenAuthentication,)
-#     permission_classes = (IsAuthenticated,)
+    # ##authentication_classes = (JSONWebTokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
-#     @swagger_auto_schema(tags=["Auth"])
-#     def get(self, request):
-#         profiles = Profile.objects.filter(user=request.user, is_active=True)
-#         companies = Org.objects.filter(id__in=profiles.values_list("org", flat=True))
-#         return Response(
-#             {
-#                 "error": False,
-#                 "companies": OrganizationSerializer(companies, many=True).data,
-#             },
-#             status=status.HTTP_200_OK,
-#         )
+    @swagger_auto_schema(tags=["Auth"])
+    def get(self, request):
+        profiles = Profile.objects.filter(user=request.user, is_active=True)
+        companies = Org.objects.filter(id__in=profiles.values_list("org", flat=True))
+        return Response(
+            {
+                "error": False,
+                "companies": OrganizationSerializer(companies, many=True).data,
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 # @require_http_methods(["POST"])

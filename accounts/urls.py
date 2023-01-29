@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import path, register_converter
 from accounts import views
+from common.utils import HashIdConverter
+
 
 app_name = "api_accounts"
+
+register_converter(HashIdConverter, "hashid")
 
 urlpatterns = [
     path("", views.AccountsListView.as_view()),

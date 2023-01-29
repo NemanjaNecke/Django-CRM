@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "django.contrib.admin",
     "common",
     "accounts",
     "cases",
@@ -264,6 +265,8 @@ SIMPLE_JWT = {
 # it is needed in custome middlewere to get the user from the token
 JWT_ALGO = "HS256"
 
+#Hashids var
+HASHIDS_SALT = os.environ["HASHIDS_SALT"]
 
 DOMAIN_NAME = os.environ["DOMAIN_NAME"]
 SWAGGER_ROOT_URL = os.environ["SWAGGER_ROOT_URL"]

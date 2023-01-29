@@ -1,6 +1,7 @@
 import pytz
 from django.utils.translation import gettext_lazy as _
-
+from hashids import Hashids
+from django.conf import settings
 
 def jwt_payload_handler(user):
     """Custom payload handler
@@ -622,3 +623,29 @@ def append_str_to(append_to: str, *args, sep=", ", **kwargs):
             data = True
             break
     return f"{sep}".join(filter(len, result_list)) if data else ""
+
+
+
+'''Hashids code to get slugs hashed and hide IDs'''
+
+hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
+
+
+def h_encode(id):
+    return hashids.encode(id)
+
+
+def h_decode(h):
+    z = hashids.decode(h)
+    if z:
+        return z[0]
+
+
+class HashIdConverter:
+    regex = '[a-zA-Z0-9]{8,}'
+
+    def to_python(self, value):
+        return h_decode(value)
+
+    def to_url(self, value):
+        return h_encode(value)
