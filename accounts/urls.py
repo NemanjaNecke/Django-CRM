@@ -1,4 +1,4 @@
-from django.urls import path, register_converter
+from django.urls import path
 from accounts import views
 from common.utils import HashIdConverter
 
